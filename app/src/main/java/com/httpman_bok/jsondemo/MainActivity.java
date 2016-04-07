@@ -24,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         DownloadTask task = new DownloadTask();
-        task.execute("http://api.openweathermap.org/data/2.5/weather?q=London,uk");
+        task.execute("http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=ea323c2669823702d0dc82e3bc1d3efc");
     }
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
+
         @Override
         protected String doInBackground(String... urls) {
 
@@ -53,14 +54,17 @@ public class MainActivity extends AppCompatActivity {
                     result += current;
 
                     data = reader.read();
+
                 }
-                  return result;
+
+                return result;
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
+
             return null;
         }
 
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             try {
+
                 JSONObject jsonObject = new JSONObject(result);
 
                 String weatherInfo = jsonObject.getString("weather");
@@ -78,17 +83,18 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray arr = new JSONArray(weatherInfo);
 
                 for (int i = 0; i < arr.length(); i++) {
+
                     JSONObject jsonPart = arr.getJSONObject(i);
 
                     Log.i("main", jsonPart.getString("main"));
                     Log.i("description", jsonPart.getString("description"));
+
                 }
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("Website content",result);
-        }
-    }
-}
+
+
+        }}}
